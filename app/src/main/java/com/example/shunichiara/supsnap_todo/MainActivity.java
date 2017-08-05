@@ -11,6 +11,7 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -24,8 +25,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Button button = (Button)findViewById(R.id.createButton);
         button.setOnClickListener(mCorkyListener);
-        getApplicationContext().deleteDatabase("TODO_DB");
+        //getApplicationContext().deleteDatabase("TODO_DB");
 
+        show();
+
+    }
+
+    private void show(){
+        Context context = getApplicationContext();
+
+        LinearLayout layout = (LinearLayout) findViewById(R.id.List);
+
+        layout.removeAllViews();
+
+        SparseArray<String> todos = getTodo();
+        for(int i = 0; i < todos.size(); i++) {
+            int key = todos.keyAt(i);
+            String todo = todos.get(key);
+            TextView newView = new TextView(context);
+            newView.setText(todo);
+            newView.setOnClickListener(deleteListener);
+            layout.addView(newView);
+        }
     }
 
     // Create an anonymous implementation of OnClickListener
@@ -37,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             String s = inputText.getText().toString();
 
             insertTodo(s);
-            getTodo();
+            show();
 
         }
     };
@@ -49,6 +70,29 @@ public class MainActivity extends AppCompatActivity {
         return false;
 
     }
+
+    private boolean deleteTodo(String todo)
+    {
+        TodoDBOpenHelper dbHelper = new TodoDBOpenHelper(getApplicationContext());
+        SQLiteDatabase  writableDatabase = dbHelper.getWritableDatabase();
+        writableDatabase.execSQL("DELETE FROM todo WHERE TODO = '"+ todo +"';");
+        return true;
+    }
+
+    // Create an anonymous implementation of OnClickListener
+    private View.OnClickListener deleteListener = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+
+            // 入力したテキストの内容を取得
+            String s = ((TextView)v).getText().toString();
+
+            deleteTodo(s);
+            show();
+        }
+    };
+
 
     private SparseArray<String> getTodo(){
         SparseArray<String> todo = new SparseArray<>();

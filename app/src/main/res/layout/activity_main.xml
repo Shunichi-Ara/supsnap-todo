@@ -8,6 +8,7 @@
 
 
     <GridLayout
+        android:id="@+id/mainLayoutGrid"
         android:layout_width="329dp"
         android:layout_height="348dp"
         tools:layout_editor_absoluteX="8dp"
@@ -35,31 +36,10 @@
             android:layout_column="3"
             android:text="Button" />
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/List">
 
-        <TextView
-            android:id="@+id/text1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:text="TextView" />
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:text="CheckBox" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:text="TextView" />
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:text="CheckBox" />
-
+        </LinearLayout>
     </GridLayout>
 </android.support.constraint.ConstraintLayout>
